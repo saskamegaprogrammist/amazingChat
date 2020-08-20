@@ -10,28 +10,27 @@ import (
 )
 
 type UsersHandlers struct {
-	UsersUC *useCases.UserUC
+	UsersUC *useCases.UsersUC
 }
 
 func (uh *UsersHandlers) Add(writer http.ResponseWriter, req *http.Request) {
-
 	var newUser models.User
 	err := json.UnmarshalFromReader(req.Body, &newUser)
 	if err != nil {
-		utils.WriteError(false, "Error unmarshaling json", err)
-		network.CreateErrorAnswerJson(writer, utils.StatusCode("Internal Server Error"), models.CreateMessage(err.Error()))
+		logger.Errorf("Error unmarshaling json: %v", err)
+		utils.CreateErrorAnswerJson(writer, utils.StatusCode("Internal Server Error"), models.CreateMessage(err.Error()))
 		return
 	}
-	usersExisting, err := uh.UsersUC.SignUp(&newUser)
+	usersExisting, err := uh.UsersUC.Add(&newUser)
 	if usersExisting {
-		network.CreateErrorAnswerJson(writer, utils.StatusCode("Conflict"), models.CreateMessage(err.Error()))
+		utils.CreateErrorAnswerJson(writer, utils.StatusCode("Conflict"), models.CreateMessage(err.Error()))
 		return
 	}
 	if err != nil {
 		logger.Error(err)
-		network.CreateErrorAnswerJson(writer, utils.StatusCode("Internal Server Error"), models.CreateMessage(err.Error()))
+		utils.CreateErrorAnswerJson(writer, utils.StatusCode("Internal Server Error"), models.CreateMessage(err.Error()))
 		return
 	}
 
-	network.CreateAnswerUserJson(writer,  utils.StatusCode("Created"), newUser)
+	utils.CreateAnswerIdJson(writer,  utils.StatusCode("Created"), models.CreateId(newUser.Id))
 }

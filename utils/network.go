@@ -25,6 +25,14 @@ func CreateErrorAnswerJson(writer http.ResponseWriter, statusCode int, error cha
 	createAnswerJson(writer, statusCode, marshalledError)
 }
 
+func CreateAnswerIdJson(writer http.ResponseWriter, statusCode int, id chat_models.IdModel) {
+	marshalledId, err := json.Marshal(id)
+	if err != nil {
+		logger.Errorf( "Error marhalling json: %v", err)
+	}
+	createAnswerJson(writer, statusCode, marshalledId)
+}
+
 func CreateAnswerUserJson(writer http.ResponseWriter, statusCode int, user chat_models.User) {
 	marshalledUser, err := json.Marshal(user)
 	if err != nil {

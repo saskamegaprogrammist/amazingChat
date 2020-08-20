@@ -2,6 +2,8 @@ package useCases
 
 import "github.com/saskamegaprogrammist/amazingChat/repository"
 
-type MessageUC struct {
+type MessagesUC struct {
 	MessagesRepo *repository.MessagesRepo
+	ChatsRepo *repository.ChatsRepo
+	UsersRepo *repository.UsersRepo
 }

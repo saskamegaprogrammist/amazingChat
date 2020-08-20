@@ -1,0 +1,1 @@
+FATAL: 2020/08/21 01:50:53.940929 main.go:28: Couldn't initialize database: ВАЖНО: база данных "amazingChatDB" не существует (SQLSTATE 3D000)
