@@ -15,11 +15,11 @@ import (
 
 func main() {
 
-	// logger initialisation
+	// logger initialization
 	utils.LoggerSetup()
 	defer utils.LoggerClose()
 
-	// database initialisation
+	// database initialization
 	err := repository.Init(pgx.ConnConfig{
 		Database: utils.DBName,
 		Host:     "localhost",
@@ -40,7 +40,7 @@ func main() {
 		logger.Fatalf("Couldn't initialize handlers: %v", err)
 	}
 
-	// router initialisation
+	// router initialization
 
 	r := mux.NewRouter()
 	r.HandleFunc(utils.GetAPIAddress("addUser"),  chat_handlers.GetUsersH().Add).Methods("POST")
@@ -51,7 +51,7 @@ func main() {
 
 	cors := handlers.CORS(handlers.AllowCredentials(), handlers.AllowedMethods([]string{"POST", "GET", "PUT", "DELETE"}))
 
-	// server initialisation
+	// server initialization
 
 	server := &http.Server{
 		Addr: utils.PortNum,
