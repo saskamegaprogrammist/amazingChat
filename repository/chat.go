@@ -51,7 +51,7 @@ func (chatsRepo *ChatsRepo) CheckUserInChat(userId string, chatId string) (int, 
 		if errRollback != nil {
 			logger.Errorf("Failed to rollback: %v", err)
 		}
-		return chatIdExists,  fmt.Errorf("this user is not in this chat")
+		return chatIdExists,  fmt.Errorf("this user is not in this chat or this chat doesn't exist")
 	}
 	err = transaction.Commit()
 	if err != nil {
@@ -104,7 +104,7 @@ func (chatsRepo *ChatsRepo) insertChatUsers(chat *models.Chat, transaction *pgx.
 				logger.Errorf("Failed to rollback: %v", err)
 				return utils.SERVER_ERROR, errRollback
 			}
-			return utils.USER_ERROR, fmt.Errorf("this chat or one of the users doesn't exist")
+			return utils.USER_ERROR, fmt.Errorf("one of the users doesn't exist or chat couldn't be created")
 		}
 	}
 	return utils.NO_ERROR, nil
@@ -120,11 +120,10 @@ func (chatsRepo *ChatsRepo) GetChatsByUserId(userId string) ([]models.Chat, erro
 		return chats, err
 	}
 
-	queryString := `SELECT id, name, created, users FROM
-	(SELECT m.max_created, m.chatid FROM ((SELECT chatid as cid, MAX(created) as max_created FROM messages GROUP BY chatid) AS mess FULL JOIN
-	(SELECT * FROM chat_users WHERE userid=$1) as user_chats
-	on mess.cid = user_chats.chatid) as m) as a JOIN chats ON chats.id = a.chatid JOIN (SELECT array_agg(userid::text) as users, chatid FROM chat_users GROUP BY chatid) as r
-	on r.chatid = a.chatid ORDER BY coalesce(max_created, created) DESC `
+
+	queryString := `SELECT id, name, created, users FROM (SELECT chatid, MAX(created) as max_created FROM messages GROUP BY chatid) as mess RIGHT OUTER JOIN
+	(SELECT chatid FROM chat_users WHERE userid=$1) as user_chats on mess.chatid = user_chats.chatid JOIN chats on user_chats.chatid = chats.id JOIN (SELECT array_agg(userid::text) as users, chatid FROM chat_users GROUP BY chatid) as r
+	on r.chatid = user_chats.chatid ORDER BY coalesce(max_created, created) DESC`
 	rows, err := transaction.Query(queryString, userId)
 	if err != nil {
 		return chats, nil
@@ -134,7 +133,7 @@ func (chatsRepo *ChatsRepo) GetChatsByUserId(userId string) ([]models.Chat, erro
 		var chatId int
 		err = rows.Scan(&chatId, &cFound.Name, &cFound.Created, &cFound.Users)
 		if err != nil {
-			logger.Errorf("Failed to insert to chat_users: %v", err)
+			logger.Errorf("Failed to retrieve chat: %v", err)
 			errRollback := transaction.Rollback()
 			if errRollback != nil {
 				logger.Errorf("Failed to rollback: %v", err)
@@ -151,4 +150,33 @@ func (chatsRepo *ChatsRepo) GetChatsByUserId(userId string) ([]models.Chat, erro
 		return chats, err
 	}
 	return chats, nil
+}
+
+
+func (chatsRepo *ChatsRepo) CheckChat(chatId string) (int, error) {
+	chatIdExists := utils.ERROR_ID
+
+	db := getPool()
+	transaction, err := db.Begin()
+	if err != nil {
+		logger.Errorf("Failed to start transaction: %v", err)
+		return chatIdExists, err
+	}
+
+	row := transaction.QueryRow("SELECT id FROM chats WHERE id = $1", chatId)
+	err = row.Scan(&chatIdExists)
+	if err != nil {
+		logger.Errorf("Failed to scan row: %v", err)
+		errRollback := transaction.Rollback()
+		if errRollback != nil {
+			logger.Errorf("Failed to rollback: %v", err)
+		}
+		return chatIdExists, fmt.Errorf("this chat doesn't exist")
+	}
+	err = transaction.Commit()
+	if err != nil {
+		logger.Errorf("Error commit: %v", err)
+		return chatIdExists, err
+	}
+	return chatIdExists, err
 }

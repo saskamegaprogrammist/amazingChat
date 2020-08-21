@@ -32,6 +32,8 @@ func Init(config pgx.ConnConfig) error {
 	return nil
 }
 
+// relation style tables creation
+
 func (repo *Repository)  createTables() error {
 	_, err := repo.pool.Exec(`
 DROP TABLE IF EXISTS messages;

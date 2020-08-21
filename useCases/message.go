@@ -33,3 +33,17 @@ func (messagesUC *MessagesUC) Add(message *models.Message) (bool, error) {
 		}
 	}
 }
+
+func (messagesUC *MessagesUC) GetChatMessagesSorted(chat *models.ChatId) (bool, []models.Message, error) {
+	messages := make([]models.Message, 0)
+	chatExistsId, err := messagesUC.ChatsRepo.CheckChat(chat.ChatId)
+	if err != nil {
+		return false, messages, err
+	}
+	if chatExistsId == utils.ERROR_ID {
+		return true, messages, fmt.Errorf("this chat doesn't exist")
+	} else {
+		messages, err = messagesUC.MessagesRepo.GetMessagesByChatId(chat.ChatId)
+		return false, messages, err
+	}
+}

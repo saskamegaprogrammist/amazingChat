@@ -15,9 +15,11 @@ import (
 
 func main() {
 
+	// logger initialisation
 	utils.LoggerSetup()
 	defer utils.LoggerClose()
 
+	// database initialisation
 	err := repository.Init(pgx.ConnConfig{
 		Database: utils.DBName,
 		Host:     "localhost",
@@ -38,14 +40,18 @@ func main() {
 		logger.Fatalf("Couldn't initialize handlers: %v", err)
 	}
 
-	r := mux.NewRouter()
-	r.HandleFunc("/users/add",  chat_handlers.GetUsersH().Add).Methods("POST")
-	r.HandleFunc("/chats/add",  chat_handlers.GetChatsH().Add).Methods("POST")
-	r.HandleFunc("/messages/add",  chat_handlers.GetMessagesH().Add).Methods("POST")
-	r.HandleFunc("/chats/get",  chat_handlers.GetChatsH().Get).Methods("POST")
-	//r.HandleFunc("/messages/get",  chat_handlers.GetMessagesH().Get).Methods("POST")
+	// router initialisation
 
-	cors := handlers.CORS(handlers.AllowedOrigins([]string{"http://localhost:5000"}), handlers.AllowCredentials(), handlers.AllowedMethods([]string{"POST", "GET", "PUT", "DELETE"}))
+	r := mux.NewRouter()
+	r.HandleFunc(utils.GetAPIAddress("addUser"),  chat_handlers.GetUsersH().Add).Methods("POST")
+	r.HandleFunc(utils.GetAPIAddress("addChat"), chat_handlers.GetChatsH().Add).Methods("POST")
+	r.HandleFunc(utils.GetAPIAddress("addMessage"),  chat_handlers.GetMessagesH().Add).Methods("POST")
+	r.HandleFunc(utils.GetAPIAddress("getUsers"), chat_handlers.GetChatsH().Get).Methods("POST")
+	r.HandleFunc(utils.GetAPIAddress("getMessages"),  chat_handlers.GetMessagesH().Get).Methods("POST")
+
+	cors := handlers.CORS(handlers.AllowCredentials(), handlers.AllowedMethods([]string{"POST", "GET", "PUT", "DELETE"}))
+
+	// server initialisation
 
 	server := &http.Server{
 		Addr: utils.PortNum,
