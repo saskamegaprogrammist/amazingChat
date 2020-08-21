@@ -1,6 +1,12 @@
 # amazingChat
 test application for internship
 
+# to build application:
+`sudo docker build -t alex https://github.com/saskamegaprogrammist/amazingChat.git`
+
+# to run application:
+` sudo docker run -p 9000:9000 --name alex -t alex`
+
 # API
 
 # Add user
