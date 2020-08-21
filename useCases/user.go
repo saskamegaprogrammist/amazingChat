@@ -5,6 +5,7 @@ import (
 	"github.com/saskamegaprogrammist/amazingChat/models"
 	"github.com/saskamegaprogrammist/amazingChat/repository"
 	"github.com/saskamegaprogrammist/amazingChat/utils"
+	"time"
 )
 
 type UsersUC struct {
@@ -19,6 +20,7 @@ func (userUC *UsersUC) Add(user *models.User) (bool, error) {
 	if id != utils.ERROR_ID {
 		return true, fmt.Errorf("this username is already taken")
 	} else {
+		user.Created = time.Now()
 		return false, userUC.UsersRepo.InsertUser(user)
 	}
 }

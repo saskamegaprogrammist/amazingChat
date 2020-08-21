@@ -37,7 +37,7 @@ func easyjson657d4933DecodeGithubComSaskamegaprogrammistAmazingChatModels(in *jl
 		}
 		switch key {
 		case "id":
-			out.Id = int(in.Int())
+			out.Id = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -55,7 +55,7 @@ func easyjson657d4933EncodeGithubComSaskamegaprogrammistAmazingChatModels(out *j
 	{
 		const prefix string = ",\"id\":"
 		out.RawString(prefix[1:])
-		out.Int(int(in.Id))
+		out.String(string(in.Id))
 	}
 	out.RawByte('}')
 }

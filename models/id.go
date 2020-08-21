@@ -2,10 +2,10 @@ package models
 
 //easyjson:json
 type IdModel struct {
-	Id int `json:"id"`
+	Id string `json:"id"`
 }
 
-func CreateId(id int) IdModel {
+func CreateId(id string) IdModel {
 	return IdModel{Id:id}
 }
 

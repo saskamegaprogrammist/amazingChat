@@ -14,12 +14,18 @@ var statusCodes = map[string]int{
 	"Service Unavailable" : 503,
 }
 
+const (
+	NO_ERROR = iota
+	USER_ERROR
+	SERVER_ERROR
+)
+
 func StatusCode(mess string) int {
 	return statusCodes[mess]
 }
 
 const ERROR_ID  = 0
 const LogFile  = "log.log"
-const DBName = "amazingChatDB"
+const DBName = "amazing_chat"
 const PortNum = ":9000"
 

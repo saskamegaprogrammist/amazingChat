@@ -4,10 +4,12 @@ import "time"
 
 //easyjson:json
 type Message struct {
-	Id int `json:"id"`
-	Chat int `json:"chat"`
-	Author int `json:"author"`
+	Id string `json:"id"`
+	Chat string `json:"chat"`
+	Author string `json:"author"`
 	Text string `json:"text"`
 	Created time.Time `json:"created_at"`
 }
 
+//easyjson:json
+type Messages []Message

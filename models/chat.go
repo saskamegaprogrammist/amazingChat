@@ -4,9 +4,17 @@ import "time"
 
 //easyjson:json
 type Chat struct {
-	Id int `json:"id"`
+	Id string `json:"id"`
 	Name string `json:"name"`
-	Users []int `json:"users"`
+	Users []string `json:"users"`
 	Created time.Time `json:"created_at"`
 }
+
+//easyjson:json
+type ChatId struct {
+	ChatId string `json:"chat"`
+}
+
+//easyjson:json
+type Chats []Chat
 

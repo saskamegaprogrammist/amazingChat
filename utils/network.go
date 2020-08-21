@@ -33,10 +33,18 @@ func CreateAnswerIdJson(writer http.ResponseWriter, statusCode int, id chat_mode
 	createAnswerJson(writer, statusCode, marshalledId)
 }
 
-func CreateAnswerUserJson(writer http.ResponseWriter, statusCode int, user chat_models.User) {
-	marshalledUser, err := json.Marshal(user)
+func CreateAnswerChatsJson(writer http.ResponseWriter, statusCode int, chats chat_models.Chats) {
+	marshalledChats, err := json.Marshal(chats)
 	if err != nil {
 		logger.Errorf( "Error marhalling json: %v", err)
 	}
-	createAnswerJson(writer, statusCode, marshalledUser)
+	createAnswerJson(writer, statusCode, marshalledChats)
+}
+
+func CreateAnswerMessagesJson(writer http.ResponseWriter, statusCode int, messages chat_models.Messages) {
+	marshalledMessages, err := json.Marshal(messages)
+	if err != nil {
+		logger.Errorf( "Error marhalling json: %v", err)
+	}
+	createAnswerJson(writer, statusCode, marshalledMessages)
 }

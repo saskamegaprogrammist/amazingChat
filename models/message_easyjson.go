@@ -17,7 +17,73 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels(in *jlexer.Lexer, out *Message) {
+func easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels(in *jlexer.Lexer, out *Messages) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		in.Skip()
+		*out = nil
+	} else {
+		in.Delim('[')
+		if *out == nil {
+			if !in.IsDelim(']') {
+				*out = make(Messages, 0, 0)
+			} else {
+				*out = Messages{}
+			}
+		} else {
+			*out = (*out)[:0]
+		}
+		for !in.IsDelim(']') {
+			var v1 Message
+			(v1).UnmarshalEasyJSON(in)
+			*out = append(*out, v1)
+			in.WantComma()
+		}
+		in.Delim(']')
+	}
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson4086215fEncodeGithubComSaskamegaprogrammistAmazingChatModels(out *jwriter.Writer, in Messages) {
+	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+		out.RawString("null")
+	} else {
+		out.RawByte('[')
+		for v2, v3 := range in {
+			if v2 > 0 {
+				out.RawByte(',')
+			}
+			(v3).MarshalEasyJSON(out)
+		}
+		out.RawByte(']')
+	}
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v Messages) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson4086215fEncodeGithubComSaskamegaprogrammistAmazingChatModels(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v Messages) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjson4086215fEncodeGithubComSaskamegaprogrammistAmazingChatModels(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *Messages) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *Messages) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels(l, v)
+}
+func easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels1(in *jlexer.Lexer, out *Message) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -37,11 +103,11 @@ func easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels(in *jl
 		}
 		switch key {
 		case "id":
-			out.Id = int(in.Int())
+			out.Id = string(in.String())
 		case "chat":
-			out.Chat = int(in.Int())
+			out.Chat = string(in.String())
 		case "author":
-			out.Author = int(in.Int())
+			out.Author = string(in.String())
 		case "text":
 			out.Text = string(in.String())
 		case "created_at":
@@ -58,24 +124,24 @@ func easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels(in *jl
 		in.Consumed()
 	}
 }
-func easyjson4086215fEncodeGithubComSaskamegaprogrammistAmazingChatModels(out *jwriter.Writer, in Message) {
+func easyjson4086215fEncodeGithubComSaskamegaprogrammistAmazingChatModels1(out *jwriter.Writer, in Message) {
 	out.RawByte('{')
 	first := true
 	_ = first
 	{
 		const prefix string = ",\"id\":"
 		out.RawString(prefix[1:])
-		out.Int(int(in.Id))
+		out.String(string(in.Id))
 	}
 	{
 		const prefix string = ",\"chat\":"
 		out.RawString(prefix)
-		out.Int(int(in.Chat))
+		out.String(string(in.Chat))
 	}
 	{
 		const prefix string = ",\"author\":"
 		out.RawString(prefix)
-		out.Int(int(in.Author))
+		out.String(string(in.Author))
 	}
 	{
 		const prefix string = ",\"text\":"
@@ -93,23 +159,23 @@ func easyjson4086215fEncodeGithubComSaskamegaprogrammistAmazingChatModels(out *j
 // MarshalJSON supports json.Marshaler interface
 func (v Message) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson4086215fEncodeGithubComSaskamegaprogrammistAmazingChatModels(&w, v)
+	easyjson4086215fEncodeGithubComSaskamegaprogrammistAmazingChatModels1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v Message) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson4086215fEncodeGithubComSaskamegaprogrammistAmazingChatModels(w, v)
+	easyjson4086215fEncodeGithubComSaskamegaprogrammistAmazingChatModels1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *Message) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels(&r, v)
+	easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Message) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels(l, v)
+	easyjson4086215fDecodeGithubComSaskamegaprogrammistAmazingChatModels1(l, v)
 }

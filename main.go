@@ -40,9 +40,9 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/users/add",  chat_handlers.GetUsersH().Add).Methods("POST")
-	//r.HandleFunc("/chats/add",  chat_handlers.GetChatsH().Add).Methods("POST")
-	//r.HandleFunc("/messages/add",  chat_handlers.GetMessagesH().Add).Methods("POST")
-	//r.HandleFunc("/chats/get",  chat_handlers.GetChatsH().Get).Methods("POST")
+	r.HandleFunc("/chats/add",  chat_handlers.GetChatsH().Add).Methods("POST")
+	r.HandleFunc("/messages/add",  chat_handlers.GetMessagesH().Add).Methods("POST")
+	r.HandleFunc("/chats/get",  chat_handlers.GetChatsH().Get).Methods("POST")
 	//r.HandleFunc("/messages/get",  chat_handlers.GetMessagesH().Get).Methods("POST")
 
 	cors := handlers.CORS(handlers.AllowedOrigins([]string{"http://localhost:5000"}), handlers.AllowCredentials(), handlers.AllowedMethods([]string{"POST", "GET", "PUT", "DELETE"}))
