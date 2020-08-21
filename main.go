@@ -23,8 +23,8 @@ func main() {
 	err := repository.Init(pgx.ConnConfig{
 		Database: utils.DBName,
 		Host:     "localhost",
-		User:     "docker",
-		Password: "docker",
+		User:     "alexis",
+		Password: "sinope27",
 	})
 	if err != nil {
 		logger.Fatalf("Couldn't initialize database: %v", err)
@@ -46,7 +46,7 @@ func main() {
 	r.HandleFunc(utils.GetAPIAddress("addUser"),  chat_handlers.GetUsersH().Add).Methods("POST")
 	r.HandleFunc(utils.GetAPIAddress("addChat"), chat_handlers.GetChatsH().Add).Methods("POST")
 	r.HandleFunc(utils.GetAPIAddress("addMessage"),  chat_handlers.GetMessagesH().Add).Methods("POST")
-	r.HandleFunc(utils.GetAPIAddress("getUsers"), chat_handlers.GetChatsH().Get).Methods("POST")
+	r.HandleFunc(utils.GetAPIAddress("getChats"), chat_handlers.GetChatsH().Get).Methods("POST")
 	r.HandleFunc(utils.GetAPIAddress("getMessages"),  chat_handlers.GetMessagesH().Get).Methods("POST")
 
 	cors := handlers.CORS(handlers.AllowCredentials(), handlers.AllowedMethods([]string{"POST", "GET", "PUT", "DELETE"}))

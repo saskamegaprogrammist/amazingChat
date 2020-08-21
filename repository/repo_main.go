@@ -22,7 +22,7 @@ func Init(config pgx.ConnConfig) error {
 	if err != nil {
 		return err
 	}
-	//err = repo.createTables()
+	err = repo.createTables()
 	if err != nil {
 		return err
 	}
@@ -36,32 +36,24 @@ func Init(config pgx.ConnConfig) error {
 
 func (repo *Repository)  createTables() error {
 	_, err := repo.pool.Exec(`
-DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS chat_users;
-DROP TABLE IF EXISTS chats;
-DROP TABLE IF EXISTS users;
-
-
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users  (
     id SERIAL NOT NULL PRIMARY KEY,
     username text NOT NULL UNIQUE,
     created TIMESTAMPTZ NOT NULL
 );
 
-CREATE TABLE chats (
+CREATE TABLE IF NOT EXISTS chats (
     id SERIAL NOT NULL PRIMARY KEY,
     name text NOT NULL UNIQUE,
 	created TIMESTAMPTZ NOT NULL
 );
 
-CREATE TABLE chat_users (
+CREATE TABLE IF NOT EXISTS chat_users (
 	chatid int NOT NULL REFERENCES chats(id) ON DELETE CASCADE,
     userid int NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE INDEX chat_users_chatid ON chat_users (chatid);
-
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
     id SERIAL NOT NULL PRIMARY KEY,
     text text NOT NULL,
 	chatid int NOT NULL REFERENCES chats(id) ON DELETE CASCADE,
