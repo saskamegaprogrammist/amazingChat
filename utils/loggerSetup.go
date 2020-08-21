@@ -15,7 +15,7 @@ func LoggerSetup() {
 	if err != nil {
 		logger.Fatalf("Failed to open log file: %v", err)
 	}
-	logger.Init("LoggerExample", verbose, true, loggerFile)
+	logger.Init("LoggerExample", verbose, false, loggerFile)
 }
 
 func LoggerClose() {
