@@ -10,7 +10,7 @@ type UseCases struct {
 
 var uc UseCases
 
-func Init(usersRepo *repository.UsersRepo, chatsRepo *repository.ChatsRepo, messagesRepo *repository.MessagesRepo) error {
+func Init(usersRepo repository.UsersRepoInterface, chatsRepo repository.ChatsRepoInterface, messagesRepo repository.MessagesRepoInterface) error {
 	uc.UsersUC = &UsersUC{usersRepo}
 	uc.ChatsUC = &ChatsUC{chatsRepo, usersRepo}
 	uc.MessagesUC = &MessagesUC{messagesRepo, chatsRepo, usersRepo}
@@ -18,13 +18,13 @@ func Init(usersRepo *repository.UsersRepo, chatsRepo *repository.ChatsRepo, mess
 	return nil
 }
 
-func GetUsersUC() *UsersUC {
+func GetUsersUC() UsersUCInterface {
 	return uc.UsersUC
 }
 
-func GetChatsUC() *ChatsUC {
+func GetChatsUC() ChatsUCInterface {
 	return uc.ChatsUC
 }
-func GetMessagesUC() *MessagesUC {
+func GetMessagesUC() MessagesUCInterface {
 	return uc.MessagesUC
 }

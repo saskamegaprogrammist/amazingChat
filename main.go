@@ -23,8 +23,8 @@ func main() {
 	err := repository.Init(pgx.ConnConfig{
 		Database: utils.DBName,
 		Host:     "localhost",
-		User:     "docker",
-		Password: "docker",
+		User:     "alexis",
+		Password: "sinope27",
 	})
 	if err != nil {
 		logger.Fatalf("Couldn't initialize database: %v", err)

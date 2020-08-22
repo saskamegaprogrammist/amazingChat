@@ -9,7 +9,7 @@ type Handlers struct {
 }
 var h Handlers
 
-func Init(usersUC *useCases.UsersUC, chatsUC *useCases.ChatsUC, messagesUC *useCases.MessagesUC) error {
+func Init(usersUC useCases.UsersUCInterface, chatsUC useCases.ChatsUCInterface, messagesUC useCases.MessagesUCInterface) error {
 	h.UsersHandlers = &UsersHandlers{usersUC}
 	h.ChatsHandlers = &ChatsHandlers{chatsUC}
 	h.MessagesHandlers = &MessagesHandlers{messagesUC}

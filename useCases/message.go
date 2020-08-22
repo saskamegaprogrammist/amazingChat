@@ -9,9 +9,9 @@ import (
 )
 
 type MessagesUC struct {
-	MessagesRepo *repository.MessagesRepo
-	ChatsRepo *repository.ChatsRepo
-	UsersRepo *repository.UsersRepo
+	MessagesRepo repository.MessagesRepoInterface
+	ChatsRepo repository.ChatsRepoInterface
+	UsersRepo repository.UsersRepoInterface
 }
 
 func (messagesUC *MessagesUC) Add(message *models.Message) (bool, error) {

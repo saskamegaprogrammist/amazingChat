@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/google/logger"
 	json "github.com/mailru/easyjson"
 	"github.com/saskamegaprogrammist/amazingChat/models"
@@ -10,15 +11,16 @@ import (
 )
 
 type UsersHandlers struct {
-	UsersUC *useCases.UsersUC
+	UsersUC useCases.UsersUCInterface
 }
 
 func (uh *UsersHandlers) Add(writer http.ResponseWriter, req *http.Request) {
 	var newUser models.User
 	err := json.UnmarshalFromReader(req.Body, &newUser)
 	if err != nil {
-		logger.Errorf("Error unmarshaling json: %v", err)
-		utils.CreateErrorAnswerJson(writer, utils.StatusCode("Internal Server Error"), models.CreateMessage(err.Error()))
+		jsonError := fmt.Sprintf("Error unmarshaling json: %v", err.Error())
+		logger.Errorf(jsonError)
+		utils.CreateErrorAnswerJson(writer, utils.StatusCode("Internal Server Error"), models.CreateMessage(jsonError))
 		return
 	}
 	usersExisting, err := uh.UsersUC.Add(&newUser)

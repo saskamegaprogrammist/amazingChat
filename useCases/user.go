@@ -9,7 +9,7 @@ import (
 )
 
 type UsersUC struct {
-	UsersRepo *repository.UsersRepo
+	UsersRepo repository.UsersRepoInterface
 }
 
 func (userUC *UsersUC) Add(user *models.User) (bool, error) {

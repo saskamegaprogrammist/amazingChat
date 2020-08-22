@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/google/logger"
 	json "github.com/mailru/easyjson"
 	"github.com/saskamegaprogrammist/amazingChat/models"
@@ -10,15 +11,16 @@ import (
 )
 
 type MessagesHandlers struct {
-	MessagesUC *useCases.MessagesUC
+	MessagesUC useCases.MessagesUCInterface
 }
 
 func (mh *MessagesHandlers) Add(writer http.ResponseWriter, req *http.Request) {
 	var newMessage models.Message
 	err := json.UnmarshalFromReader(req.Body, &newMessage)
 	if err != nil {
-		logger.Errorf("Error unmarshaling json: %v", err)
-		utils.CreateErrorAnswerJson(writer, utils.StatusCode("Internal Server Error"), models.CreateMessage(err.Error()))
+		jsonError := fmt.Sprintf("Error unmarshaling json: %v", err.Error())
+		logger.Errorf(jsonError)
+		utils.CreateErrorAnswerJson(writer, utils.StatusCode("Internal Server Error"), models.CreateMessage(jsonError))
 		return
 	}
 	userError, err := mh.MessagesUC.Add(&newMessage)
@@ -40,8 +42,9 @@ func (mh *MessagesHandlers) Get(writer http.ResponseWriter, req *http.Request) {
 	var chat models.ChatId
 	err := json.UnmarshalFromReader(req.Body, &chat)
 	if err != nil {
-		logger.Errorf("Error unmarshaling json: %v", err)
-		utils.CreateErrorAnswerJson(writer, utils.StatusCode("Internal Server Error"), models.CreateMessage(err.Error()))
+		jsonError := fmt.Sprintf("Error unmarshaling json: %v", err.Error())
+		logger.Errorf(jsonError)
+		utils.CreateErrorAnswerJson(writer, utils.StatusCode("Internal Server Error"), models.CreateMessage(jsonError))
 		return
 	}
 	chatNotExist, messages, err := mh.MessagesUC.GetChatMessagesSorted(&chat)

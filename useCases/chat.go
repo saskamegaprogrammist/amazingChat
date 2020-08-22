@@ -9,8 +9,8 @@ import (
 )
 
 type ChatsUC struct {
-	ChatsRepo *repository.ChatsRepo
-	UsersRepo *repository.UsersRepo
+	ChatsRepo repository.ChatsRepoInterface
+	UsersRepo repository.UsersRepoInterface
 }
 
 func (chatUC *ChatsUC) Add(chat *models.Chat) (bool, bool, error) {

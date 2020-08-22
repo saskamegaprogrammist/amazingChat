@@ -72,14 +72,14 @@ func getPool() *pgx.ConnPool {
 	return repo.pool
 }
 
-func GetUsersRepo() *UsersRepo {
+func GetUsersRepo() UsersRepoInterface {
 	return repo.UsersRepo
 }
 
-func GetChatsRepo() *ChatsRepo {
+func GetChatsRepo() ChatsRepoInterface {
 	return repo.ChatsRepo
 }
 
-func GetMessagesRepo() *MessagesRepo {
+func GetMessagesRepo() MessagesRepoInterface {
 	return repo.MessagesRepo
 }
