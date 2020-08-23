@@ -10,8 +10,8 @@ import (
 
 type MessagesUC struct {
 	MessagesRepo repository.MessagesRepoInterface
-	ChatsRepo repository.ChatsRepoInterface
-	UsersRepo repository.UsersRepoInterface
+	ChatsRepo    repository.ChatsRepoInterface
+	UsersRepo    repository.UsersRepoInterface
 }
 
 func (messagesUC *MessagesUC) Add(message *models.Message) (bool, error) {

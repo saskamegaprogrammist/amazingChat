@@ -6,9 +6,9 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx"
 	chat_handlers "github.com/saskamegaprogrammist/amazingChat/handlers"
+	"github.com/saskamegaprogrammist/amazingChat/repository"
 	"github.com/saskamegaprogrammist/amazingChat/useCases"
 	"github.com/saskamegaprogrammist/amazingChat/utils"
-	"github.com/saskamegaprogrammist/amazingChat/repository"
 	"net/http"
 	"time"
 )
@@ -43,19 +43,19 @@ func main() {
 	// router initialization
 
 	r := mux.NewRouter()
-	r.HandleFunc(utils.GetAPIAddress("addUser"),  chat_handlers.GetUsersH().Add).Methods("POST")
+	r.HandleFunc(utils.GetAPIAddress("addUser"), chat_handlers.GetUsersH().Add).Methods("POST")
 	r.HandleFunc(utils.GetAPIAddress("addChat"), chat_handlers.GetChatsH().Add).Methods("POST")
-	r.HandleFunc(utils.GetAPIAddress("addMessage"),  chat_handlers.GetMessagesH().Add).Methods("POST")
+	r.HandleFunc(utils.GetAPIAddress("addMessage"), chat_handlers.GetMessagesH().Add).Methods("POST")
 	r.HandleFunc(utils.GetAPIAddress("getChats"), chat_handlers.GetChatsH().Get).Methods("POST")
-	r.HandleFunc(utils.GetAPIAddress("getMessages"),  chat_handlers.GetMessagesH().Get).Methods("POST")
+	r.HandleFunc(utils.GetAPIAddress("getMessages"), chat_handlers.GetMessagesH().Get).Methods("POST")
 
 	cors := handlers.CORS(handlers.AllowCredentials(), handlers.AllowedMethods([]string{"POST", "GET", "PUT", "DELETE"}))
 
 	// server initialization
 
 	server := &http.Server{
-		Addr: utils.PortNum,
-		Handler : cors(r),
+		Addr:         utils.PortNum,
+		Handler:      cors(r),
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}

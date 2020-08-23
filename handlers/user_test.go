@@ -89,7 +89,6 @@ func TestAddUser(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-
 		apitest.New("MalformedJSON").
 			Handler(http.HandlerFunc(uh.Add)).
 			Method("Post").

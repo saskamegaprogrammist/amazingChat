@@ -12,7 +12,6 @@ import (
 type ChatsRepo struct {
 }
 
-
 func (chatsRepo *ChatsRepo) GetChatIdByName(chat *models.Chat) (int, error) {
 	chatExistsId := utils.ERROR_ID
 	db := getPool()
@@ -51,7 +50,7 @@ func (chatsRepo *ChatsRepo) CheckUserInChat(userId string, chatId string) (int, 
 		if errRollback != nil {
 			logger.Errorf("Failed to rollback: %v", err)
 		}
-		return chatIdExists,  fmt.Errorf("this user is not in this chat or this chat doesn't exist")
+		return chatIdExists, fmt.Errorf("this user is not in this chat or this chat doesn't exist")
 	}
 	err = transaction.Commit()
 	if err != nil {
@@ -110,7 +109,6 @@ func (chatsRepo *ChatsRepo) insertChatUsers(chat *models.Chat, transaction *pgx.
 	return utils.NO_ERROR, nil
 }
 
-
 func (chatsRepo *ChatsRepo) GetChatsByUserId(userId string) ([]models.Chat, error) {
 	chats := make([]models.Chat, 0)
 	db := getPool()
@@ -119,7 +117,6 @@ func (chatsRepo *ChatsRepo) GetChatsByUserId(userId string) ([]models.Chat, erro
 		logger.Errorf("Failed to start transaction: %v", err)
 		return chats, err
 	}
-
 
 	queryString := `SELECT id, name, created, users FROM (SELECT chatid, MAX(created) as max_created FROM messages GROUP BY chatid) as mess RIGHT OUTER JOIN
 	(SELECT chatid FROM chat_users WHERE userid=$1) as user_chats on mess.chatid = user_chats.chatid JOIN chats on user_chats.chatid = chats.id JOIN (SELECT array_agg(userid::text) as users, chatid FROM chat_users GROUP BY chatid) as r
@@ -151,7 +148,6 @@ func (chatsRepo *ChatsRepo) GetChatsByUserId(userId string) ([]models.Chat, erro
 	}
 	return chats, nil
 }
-
 
 func (chatsRepo *ChatsRepo) CheckChat(chatId string) (int, error) {
 	chatIdExists := utils.ERROR_ID

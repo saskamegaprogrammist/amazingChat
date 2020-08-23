@@ -1,22 +1,22 @@
 package repository
 
-import 	"github.com/jackc/pgx"
+import "github.com/jackc/pgx"
 
 type Repository struct {
-	pool *pgx.ConnPool
-	UsersRepo *UsersRepo
-	ChatsRepo *ChatsRepo
+	pool         *pgx.ConnPool
+	UsersRepo    *UsersRepo
+	ChatsRepo    *ChatsRepo
 	MessagesRepo *MessagesRepo
 }
 
 var repo Repository
-const dbConnections = 20
 
+const dbConnections = 20
 
 func Init(config pgx.ConnConfig) error {
 	var err error
 	repo.pool, err = pgx.NewConnPool(pgx.ConnPoolConfig{
-		ConnConfig: config,
+		ConnConfig:     config,
 		MaxConnections: dbConnections,
 	})
 	if err != nil {
@@ -34,7 +34,7 @@ func Init(config pgx.ConnConfig) error {
 
 // relation style tables creation
 
-func (repo *Repository)  createTables() error {
+func (repo *Repository) createTables() error {
 	_, err := repo.pool.Exec(`
 CREATE TABLE IF NOT EXISTS users  (
     id SERIAL NOT NULL PRIMARY KEY,

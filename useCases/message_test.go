@@ -14,35 +14,34 @@ import (
 )
 
 var testMessageOne = models.Message{
-	Chat: "3",
+	Chat:   "3",
 	Author: "2",
-	Text: fake.Sentence(),
+	Text:   fake.Sentence(),
 }
 
 var testMessageOneChatId = 3
 
 var testMessageWrong = models.Message{
-	Chat: "5",
+	Chat:   "5",
 	Author: "2",
-	Text: fake.Sentence(),
+	Text:   fake.Sentence(),
 }
 
 var testChatIdOne = models.ChatId{
-	ChatId:"1",
+	ChatId: "1",
 }
 
 var testChatIdOneId = 1
 
-
 var testChatIdWrong = models.ChatId{
-	ChatId:"15",
+	ChatId: "15",
 }
 
-var testChatOneMessages =  []models.Message{
-	{Id: "2", Chat: "1", Author: "1", Text: "sss", Created : time.Now()},
-	{Id: "5", Chat: "1", Author: "2", Text: "sdfeeei", Created : time.Now()},
-	{Id: "6", Chat: "1", Author: "2", Text: "sdfeeei", Created : time.Now()},
-	{Id: "7", Chat: "1", Author: "2", Text: "sdfeeei", Created : time.Now()},
+var testChatOneMessages = []models.Message{
+	{Id: "2", Chat: "1", Author: "1", Text: "sss", Created: time.Now()},
+	{Id: "5", Chat: "1", Author: "2", Text: "sdfeeei", Created: time.Now()},
+	{Id: "6", Chat: "1", Author: "2", Text: "sdfeeei", Created: time.Now()},
+	{Id: "7", Chat: "1", Author: "2", Text: "sdfeeei", Created: time.Now()},
 }
 
 func TestAddMessage(t *testing.T) {
@@ -50,14 +49,14 @@ func TestAddMessage(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().CheckUserInChat(testMessageOne.Author, testMessageOne.Chat).Return(testMessageOneChatId, nil)
 
-		mockRepoMessages:= repository.NewMockMessagesRepoInterface(ctrl)
+		mockRepoMessages := repository.NewMockMessagesRepoInterface(ctrl)
 		mockRepoMessages.EXPECT().InsertMessage(&testMessageOne).Return(utils.NO_ERROR, nil)
 
 		messagesUseCase := MessagesUC{
-			ChatsRepo: mockRepoChats,
+			ChatsRepo:    mockRepoChats,
 			MessagesRepo: mockRepoMessages,
 		}
 
@@ -71,13 +70,13 @@ func TestAddMessage(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().CheckUserInChat(testMessageOne.Author, testMessageOne.Chat).Return(utils.ERROR_ID, nil)
 
-		mockRepoMessages:= repository.NewMockMessagesRepoInterface(ctrl)
+		mockRepoMessages := repository.NewMockMessagesRepoInterface(ctrl)
 
 		messagesUseCase := MessagesUC{
-			ChatsRepo: mockRepoChats,
+			ChatsRepo:    mockRepoChats,
 			MessagesRepo: mockRepoMessages,
 		}
 
@@ -92,13 +91,13 @@ func TestAddMessage(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().CheckUserInChat(testMessageOne.Author, testMessageOne.Chat).Return(testMessageOneChatId, errors.New("database error"))
 
-		mockRepoMessages:= repository.NewMockMessagesRepoInterface(ctrl)
+		mockRepoMessages := repository.NewMockMessagesRepoInterface(ctrl)
 
 		messagesUseCase := MessagesUC{
-			ChatsRepo: mockRepoChats,
+			ChatsRepo:    mockRepoChats,
 			MessagesRepo: mockRepoMessages,
 		}
 
@@ -112,14 +111,13 @@ func TestAddMessage(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().CheckUserInChat(testMessageOne.Author, testMessageOne.Chat).Return(testMessageOneChatId, nil)
 
-		mockRepoMessages:= repository.NewMockMessagesRepoInterface(ctrl)
+		mockRepoMessages := repository.NewMockMessagesRepoInterface(ctrl)
 		mockRepoMessages.EXPECT().InsertMessage(&testMessageOne).Return(utils.SERVER_ERROR, errors.New("database error"))
 		messagesUseCase := MessagesUC{
-			ChatsRepo: mockRepoChats,
+			ChatsRepo:    mockRepoChats,
 			MessagesRepo: mockRepoMessages,
 		}
 
@@ -133,14 +131,13 @@ func TestAddMessage(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().CheckUserInChat(testMessageOne.Author, testMessageOne.Chat).Return(testMessageOneChatId, nil)
 
-		mockRepoMessages:= repository.NewMockMessagesRepoInterface(ctrl)
+		mockRepoMessages := repository.NewMockMessagesRepoInterface(ctrl)
 		mockRepoMessages.EXPECT().InsertMessage(&testMessageOne).Return(utils.USER_ERROR, errors.New("user error"))
 		messagesUseCase := MessagesUC{
-			ChatsRepo: mockRepoChats,
+			ChatsRepo:    mockRepoChats,
 			MessagesRepo: mockRepoMessages,
 		}
 
@@ -151,22 +148,19 @@ func TestAddMessage(t *testing.T) {
 	})
 }
 
-
 func TestGetChatMessagesSorted(t *testing.T) {
 	t.Run("MessagesGetOK", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().CheckChat(testChatIdOne.ChatId).Return(testChatIdOneId, nil)
 
-
-		mockRepoMessages:= repository.NewMockMessagesRepoInterface(ctrl)
+		mockRepoMessages := repository.NewMockMessagesRepoInterface(ctrl)
 		mockRepoMessages.EXPECT().GetMessagesByChatId(testChatIdOne.ChatId).Return(testChatOneMessages, nil)
 
-
 		messagesUseCase := MessagesUC{
-			ChatsRepo: mockRepoChats,
+			ChatsRepo:    mockRepoChats,
 			MessagesRepo: mockRepoMessages,
 		}
 
@@ -181,13 +175,13 @@ func TestGetChatMessagesSorted(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().CheckChat(testChatIdWrong.ChatId).Return(utils.ERROR_ID, nil)
 
-		mockRepoMessages:= repository.NewMockMessagesRepoInterface(ctrl)
+		mockRepoMessages := repository.NewMockMessagesRepoInterface(ctrl)
 
 		messagesUseCase := MessagesUC{
-			ChatsRepo: mockRepoChats,
+			ChatsRepo:    mockRepoChats,
 			MessagesRepo: mockRepoMessages,
 		}
 
@@ -203,13 +197,13 @@ func TestGetChatMessagesSorted(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().CheckChat(testChatIdOne.ChatId).Return(testChatIdOneId, errors.New("database error"))
 
-		mockRepoMessages:= repository.NewMockMessagesRepoInterface(ctrl)
+		mockRepoMessages := repository.NewMockMessagesRepoInterface(ctrl)
 
 		messagesUseCase := MessagesUC{
-			ChatsRepo: mockRepoChats,
+			ChatsRepo:    mockRepoChats,
 			MessagesRepo: mockRepoMessages,
 		}
 
@@ -224,16 +218,14 @@ func TestGetChatMessagesSorted(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().CheckChat(testChatIdOne.ChatId).Return(testChatIdOneId, nil)
 
-
-		mockRepoMessages:= repository.NewMockMessagesRepoInterface(ctrl)
+		mockRepoMessages := repository.NewMockMessagesRepoInterface(ctrl)
 		mockRepoMessages.EXPECT().GetMessagesByChatId(testChatIdOne.ChatId).Return([]models.Message{}, errors.New("database error"))
 
-
 		messagesUseCase := MessagesUC{
-			ChatsRepo: mockRepoChats,
+			ChatsRepo:    mockRepoChats,
 			MessagesRepo: mockRepoMessages,
 		}
 

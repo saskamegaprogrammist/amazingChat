@@ -19,32 +19,32 @@ import (
 var ch ChatsHandlers
 
 var testChatOne = models.Chat{
-	Name: fake.ProductName(),
-	Users:  []string{"1", "2"},
+	Name:  fake.ProductName(),
+	Users: []string{"1", "2"},
 }
 
 var testChatTwo = models.Chat{
-	Name: fake.ProductName(),
-	Users:  []string{"1", "2", "3"},
+	Name:  fake.ProductName(),
+	Users: []string{"1", "2", "3"},
 }
 
 var testChatWrong = models.Chat{
-	Name: fake.ProductName(),
-	Users:  []string{"1", "15"},
+	Name:  fake.ProductName(),
+	Users: []string{"1", "15"},
 }
 
 var testUserIdOne = models.UserId{
-	UserId:"1",
+	UserId: "1",
 }
 
 var testUserIdWrong = models.UserId{
-	UserId:"15",
+	UserId: "15",
 }
 
-var testUserOneChats =  []models.Chat{
-{Id: "1", Name: "chat_1", Users :[]string{"1", "2", "3"}, Created : time.Now()},
-	{Id: "4", Name: "chat_3", Users : []string{"1", "2"}, Created : time.Now()},
-	{Id: "3", Name: "chat_2", Users : []string{"1", "2", "3"}, Created : time.Now()},
+var testUserOneChats = []models.Chat{
+	{Id: "1", Name: "chat_1", Users: []string{"1", "2", "3"}, Created: time.Now()},
+	{Id: "4", Name: "chat_3", Users: []string{"1", "2"}, Created: time.Now()},
+	{Id: "3", Name: "chat_2", Users: []string{"1", "2", "3"}, Created: time.Now()},
 }
 
 var testUserOneChatsJSON = `[{"id":"1","name":"chat_1","users":["1","2","3"],"created_at":"2020-08-22T00:10:09.887457+03:00"},
@@ -154,7 +154,6 @@ func TestAddChat(t *testing.T) {
 
 	})
 }
-
 
 func TestGetUserChatsSorted(t *testing.T) {
 	t.Run("ChatGetOK", func(t *testing.T) {

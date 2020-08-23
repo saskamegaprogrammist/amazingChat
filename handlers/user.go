@@ -34,5 +34,5 @@ func (uh *UsersHandlers) Add(writer http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	utils.CreateAnswerIdJson(writer,  utils.StatusCode("Created"), models.CreateId(newUser.Id))
+	utils.CreateAnswerIdJson(writer, utils.StatusCode("Created"), models.CreateId(newUser.Id))
 }

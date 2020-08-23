@@ -18,30 +18,30 @@ import (
 var mh MessagesHandlers
 
 var testMessageOne = models.Message{
-	Chat: "3",
+	Chat:   "3",
 	Author: "2",
-	Text: fake.Sentence(),
+	Text:   fake.Sentence(),
 }
 
 var testMessageWrong = models.Message{
-	Chat: "5",
+	Chat:   "5",
 	Author: "2",
-	Text: fake.Sentence(),
+	Text:   fake.Sentence(),
 }
 
 var testChatIdOne = models.ChatId{
-	ChatId:"1",
+	ChatId: "1",
 }
 
 var testChatIdWrong = models.ChatId{
-	ChatId:"15",
+	ChatId: "15",
 }
 
-var testChatOneMessages =  []models.Message{
-	{Id: "2", Chat: "1", Author: "1", Text: "sss", Created : time.Now()},
-	{Id: "5", Chat: "1", Author: "2", Text: "sdfeeei", Created : time.Now()},
-	{Id: "6", Chat: "1", Author: "2", Text: "sdfeeei", Created : time.Now()},
-	{Id: "7", Chat: "1", Author: "2", Text: "sdfeeei", Created : time.Now()},
+var testChatOneMessages = []models.Message{
+	{Id: "2", Chat: "1", Author: "1", Text: "sss", Created: time.Now()},
+	{Id: "5", Chat: "1", Author: "2", Text: "sdfeeei", Created: time.Now()},
+	{Id: "6", Chat: "1", Author: "2", Text: "sdfeeei", Created: time.Now()},
+	{Id: "7", Chat: "1", Author: "2", Text: "sdfeeei", Created: time.Now()},
 }
 
 func TestAddMessage(t *testing.T) {
@@ -88,7 +88,6 @@ func TestAddMessage(t *testing.T) {
 			Assert(jsonpath.Present(`$.message`)).
 			End()
 	})
-
 
 	t.Run("InternalError", func(t *testing.T) {
 		ctrl := gomock.NewController(t)

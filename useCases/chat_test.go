@@ -14,30 +14,30 @@ import (
 )
 
 var testChatOne = models.Chat{
-	Name: fake.ProductName(),
-	Users:  []string{"1", "2"},
+	Name:  fake.ProductName(),
+	Users: []string{"1", "2"},
 }
 
 var testChatWrong = models.Chat{
-	Name: fake.ProductName(),
-	Users:  []string{"1", "2", "15"},
+	Name:  fake.ProductName(),
+	Users: []string{"1", "2", "15"},
 }
 var testChatOneId = 1
 
 var testUserIdOne = models.UserId{
-	UserId:"1",
+	UserId: "1",
 }
 
 var testUserIdOneId = 1
 
 var testUserIdWrong = models.UserId{
-	UserId:"15",
+	UserId: "15",
 }
 
-var testUserOneChats =  []models.Chat{
-	{Id: "1", Name: "chat_1", Users :[]string{"1", "2", "3"}, Created : time.Now()},
-	{Id: "4", Name: "chat_3", Users : []string{"1", "2"}, Created : time.Now()},
-	{Id: "3", Name: "chat_2", Users : []string{"1", "2", "3"}, Created : time.Now()},
+var testUserOneChats = []models.Chat{
+	{Id: "1", Name: "chat_1", Users: []string{"1", "2", "3"}, Created: time.Now()},
+	{Id: "4", Name: "chat_3", Users: []string{"1", "2"}, Created: time.Now()},
+	{Id: "3", Name: "chat_2", Users: []string{"1", "2", "3"}, Created: time.Now()},
 }
 
 func TestAddChat(t *testing.T) {
@@ -45,9 +45,9 @@ func TestAddChat(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoUsers:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepoUsers := repository.NewMockUsersRepoInterface(ctrl)
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().GetChatIdByName(&testChatOne).Return(utils.ERROR_ID, nil)
 		mockRepoChats.EXPECT().InsertChat(&testChatOne).Return(utils.NO_ERROR, nil)
 
@@ -67,9 +67,9 @@ func TestAddChat(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoUsers:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepoUsers := repository.NewMockUsersRepoInterface(ctrl)
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().GetChatIdByName(&testChatOne).Return(testChatOneId, nil)
 
 		chatsUseCase := ChatsUC{
@@ -90,9 +90,9 @@ func TestAddChat(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoUsers:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepoUsers := repository.NewMockUsersRepoInterface(ctrl)
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().GetChatIdByName(&testChatOne).Return(utils.ERROR_ID, errors.New("database error"))
 
 		chatsUseCase := ChatsUC{
@@ -111,9 +111,9 @@ func TestAddChat(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoUsers:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepoUsers := repository.NewMockUsersRepoInterface(ctrl)
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().GetChatIdByName(&testChatOne).Return(utils.ERROR_ID, nil)
 		mockRepoChats.EXPECT().InsertChat(&testChatOne).Return(utils.SERVER_ERROR, errors.New("database error"))
 
@@ -133,9 +133,9 @@ func TestAddChat(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoUsers:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepoUsers := repository.NewMockUsersRepoInterface(ctrl)
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().GetChatIdByName(&testChatWrong).Return(utils.ERROR_ID, nil)
 		mockRepoChats.EXPECT().InsertChat(&testChatWrong).Return(utils.USER_ERROR, errors.New("not existing users"))
 
@@ -157,13 +157,11 @@ func TestGetUserChatsSorted(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoUsers:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepoUsers := repository.NewMockUsersRepoInterface(ctrl)
 		mockRepoUsers.EXPECT().CheckUser(testUserIdOne.UserId).Return(testUserIdOneId, nil)
 
-
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().GetChatsByUserId(testUserIdOne.UserId).Return(testUserOneChats, nil)
-
 
 		chatsUseCase := ChatsUC{
 			UsersRepo: mockRepoUsers,
@@ -181,10 +179,10 @@ func TestGetUserChatsSorted(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoUsers:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepoUsers := repository.NewMockUsersRepoInterface(ctrl)
 		mockRepoUsers.EXPECT().CheckUser(testUserIdWrong.UserId).Return(utils.ERROR_ID, nil)
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 
 		chatsUseCase := ChatsUC{
 			UsersRepo: mockRepoUsers,
@@ -203,10 +201,10 @@ func TestGetUserChatsSorted(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoUsers:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepoUsers := repository.NewMockUsersRepoInterface(ctrl)
 		mockRepoUsers.EXPECT().CheckUser(testUserIdOne.UserId).Return(testUserIdOneId, errors.New("database error"))
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 
 		chatsUseCase := ChatsUC{
 			UsersRepo: mockRepoUsers,
@@ -224,10 +222,10 @@ func TestGetUserChatsSorted(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepoUsers:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepoUsers := repository.NewMockUsersRepoInterface(ctrl)
 		mockRepoUsers.EXPECT().CheckUser(testUserIdOne.UserId).Return(testUserIdOneId, nil)
 
-		mockRepoChats:= repository.NewMockChatsRepoInterface(ctrl)
+		mockRepoChats := repository.NewMockChatsRepoInterface(ctrl)
 		mockRepoChats.EXPECT().GetChatsByUserId(testUserIdOne.UserId).Return([]models.Chat{}, errors.New("database error"))
 
 		chatsUseCase := ChatsUC{
@@ -242,6 +240,3 @@ func TestGetUserChatsSorted(t *testing.T) {
 		assert.Equal(t, chats, []models.Chat{})
 	})
 }
-
-
-

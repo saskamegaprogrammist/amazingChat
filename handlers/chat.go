@@ -38,7 +38,7 @@ func (ch *ChatsHandlers) Add(writer http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	utils.CreateAnswerIdJson(writer,  utils.StatusCode("Created"), models.CreateId(newChat.Id))
+	utils.CreateAnswerIdJson(writer, utils.StatusCode("Created"), models.CreateId(newChat.Id))
 }
 
 func (ch *ChatsHandlers) Get(writer http.ResponseWriter, req *http.Request) {
@@ -61,5 +61,5 @@ func (ch *ChatsHandlers) Get(writer http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	utils.CreateAnswerChatsJson(writer,  utils.StatusCode("OK"), chats)
+	utils.CreateAnswerChatsJson(writer, utils.StatusCode("OK"), chats)
 }

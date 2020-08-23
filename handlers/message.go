@@ -35,7 +35,7 @@ func (mh *MessagesHandlers) Add(writer http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	utils.CreateAnswerIdJson(writer,  utils.StatusCode("Created"), models.CreateId(newMessage.Id))
+	utils.CreateAnswerIdJson(writer, utils.StatusCode("Created"), models.CreateId(newMessage.Id))
 }
 
 func (mh *MessagesHandlers) Get(writer http.ResponseWriter, req *http.Request) {
@@ -58,5 +58,5 @@ func (mh *MessagesHandlers) Get(writer http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	utils.CreateAnswerMessagesJson(writer,  utils.StatusCode("OK"), messages)
+	utils.CreateAnswerMessagesJson(writer, utils.StatusCode("OK"), messages)
 }

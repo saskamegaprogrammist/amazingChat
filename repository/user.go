@@ -11,7 +11,6 @@ import (
 type UsersRepo struct {
 }
 
-
 func (usersRepo *UsersRepo) GetUserIdByUsername(user *models.User) (int, error) {
 	userExistsId := utils.ERROR_ID
 	db := getPool()

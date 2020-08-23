@@ -9,7 +9,6 @@ import (
 )
 
 type MessagesRepo struct {
-
 }
 
 func (messagesRepo *MessagesRepo) InsertMessage(message *models.Message) (int, error) {
@@ -64,7 +63,7 @@ func (messagesRepo *MessagesRepo) GetMessagesByChatId(chatId string) ([]models.M
 		var authorId int
 		err = rows.Scan(&messageId, &mFound.Text, &chatId, &authorId, &mFound.Created)
 		if err != nil {
-			logger.Errorf("Failed to insert to retrieve message: %v", err)
+			logger.Errorf("Failed to retrieve message: %v", err)
 			errRollback := transaction.Rollback()
 			if errRollback != nil {
 				logger.Errorf("Failed to rollback: %v", err)

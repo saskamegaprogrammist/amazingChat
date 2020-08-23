@@ -6,6 +6,5 @@ type IdModel struct {
 }
 
 func CreateId(id string) IdModel {
-	return IdModel{Id:id}
+	return IdModel{Id: id}
 }
-

@@ -13,12 +13,12 @@ import (
 )
 
 var testUserOne = models.User{
-	Id: "1",
+	Id:       "1",
 	UserName: fake.UserName(),
 }
 
 var testUserTwo = models.User{
-	Id: "3",
+	Id:       "3",
 	UserName: "three",
 }
 
@@ -29,7 +29,7 @@ func TestAddUser(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepo:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepo := repository.NewMockUsersRepoInterface(ctrl)
 		mockRepo.EXPECT().GetUserIdByUsername(&testUserOne).Return(utils.ERROR_ID, nil)
 		mockRepo.EXPECT().InsertUser(&testUserOne).Return(nil)
 
@@ -46,7 +46,7 @@ func TestAddUser(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepo:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepo := repository.NewMockUsersRepoInterface(ctrl)
 		mockRepo.EXPECT().GetUserIdByUsername(&testUserOne).Return(testUserOneId, nil)
 
 		usersUseCase := UsersUC{
@@ -63,7 +63,7 @@ func TestAddUser(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		mockRepo:= repository.NewMockUsersRepoInterface(ctrl)
+		mockRepo := repository.NewMockUsersRepoInterface(ctrl)
 		mockRepo.EXPECT().GetUserIdByUsername(&testUserOne).Return(utils.ERROR_ID, errors.New("database error"))
 
 		usersUseCase := UsersUC{

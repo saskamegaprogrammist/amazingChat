@@ -13,4 +13,3 @@ type ChatsRepoInterface interface {
 	GetChatsByUserId(userId string) ([]models.Chat, error)
 	CheckChat(chatId string) (int, error)
 }
-

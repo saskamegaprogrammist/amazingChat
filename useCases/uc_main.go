@@ -3,8 +3,8 @@ package useCases
 import "github.com/saskamegaprogrammist/amazingChat/repository"
 
 type UseCases struct {
-	UsersUC *UsersUC
-	ChatsUC *ChatsUC
+	UsersUC    *UsersUC
+	ChatsUC    *ChatsUC
 	MessagesUC *MessagesUC
 }
 
